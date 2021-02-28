@@ -256,6 +256,7 @@ GameObject:
   - component: {fileID: 114454383462897410}
   - component: {fileID: 114853960920223876}
   - component: {fileID: 114139553842080666}
+  - component: {fileID: 114507960524104782}
   m_Layer: 0
   m_Name: Simon Supports
   m_TagString: Untagged
@@ -1277,6 +1278,31 @@ MonoBehaviour:
   m_Script: {fileID: 2144496390, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114507960524104782
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1676409040304040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6121698d53055a46bc06b4583486331, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Bomb: {fileID: 114454383462897410}
+  Audio: {fileID: 114915473299363512}
+  button: {fileID: 114315401650192936}
+  ledMats:
+  - {fileID: 2100000, guid: 057c7d60ade72ab4abd92d5b958730ca, type: 2}
+  - {fileID: 2100000, guid: 0965dc6f0ecbdfc46b1b0df7ab2459d5, type: 2}
+  - {fileID: 2100000, guid: bdf9311422791f940970f96f1db081ec, type: 2}
+  - {fileID: 2100000, guid: 113ca45d5ffb60b4992ef52ac47b58f1, type: 2}
+  - {fileID: 2100000, guid: 96831a1b26b21954c9bce007bdfcf98f, type: 2}
+  - {fileID: 2100000, guid: f1e539a218c10814cbde58e3c22127a2, type: 2}
+  - {fileID: 2100000, guid: bab3a34e183ca954386e2371d6bfbf6f, type: 2}
+  - {fileID: 2100000, guid: 3607f01cfa6c6cf42a130f597403dff4, type: 2}
+  - {fileID: 2100000, guid: f0a1a5d5ec42ce6439d519a7038698d0, type: 2}
+  - {fileID: 2100000, guid: f89f25e0b8893c243994c154dc704d1d, type: 2}
 --- !u!114 &114570430299588062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1314,8 +1340,8 @@ MonoBehaviour:
   m_Script: {fileID: -119419473, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModuleType: moduleName
-  ModuleDisplayName: Module Name
+  ModuleType: simonSupports
+  ModuleDisplayName: Simon Supports
   RequiresTimerVisibility: 0
 --- !u!114 &114907837735438752
 MonoBehaviour:
