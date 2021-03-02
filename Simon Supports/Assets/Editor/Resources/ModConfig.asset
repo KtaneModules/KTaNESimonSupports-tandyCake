@@ -11,10 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 615501dbe4f3fe94fbf4b564abb10237, type: 3}
   m_Name: ModConfig
   m_EditorClassIdentifier: 
-  id: template
-  title: Template
-  author: 
-  description: 
-  version: 
+  id: simonSupports
+  title: Simon Supports
+  author: Danny7007
+  description: eat shit.
+  version: 1.0.0
   outputFolder: build
   previewImage: {fileID: 0}

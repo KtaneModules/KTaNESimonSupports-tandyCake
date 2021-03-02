@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44658017, g: 0.49641502, b: 0.57482153, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465785, g: 0.49641252, b: 0.574817, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -120,6 +120,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114507960524104782, guid: 85a2c623b85c45f4fbcbd5bedc7a4b15,
+        type: 2}
+      propertyPath: leds.Array.size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4257340207950476, guid: 85a2c623b85c45f4fbcbd5bedc7a4b15, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -152,6 +157,31 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114507960524104782, guid: 85a2c623b85c45f4fbcbd5bedc7a4b15,
+        type: 2}
+      propertyPath: leds.Array.data[0]
+      value: 
+      objectReference: {fileID: 1717509869}
+    - target: {fileID: 114507960524104782, guid: 85a2c623b85c45f4fbcbd5bedc7a4b15,
+        type: 2}
+      propertyPath: leds.Array.data[1]
+      value: 
+      objectReference: {fileID: 1785401623}
+    - target: {fileID: 114507960524104782, guid: 85a2c623b85c45f4fbcbd5bedc7a4b15,
+        type: 2}
+      propertyPath: leds.Array.data[2]
+      value: 
+      objectReference: {fileID: 1259607603}
+    - target: {fileID: 114507960524104782, guid: 85a2c623b85c45f4fbcbd5bedc7a4b15,
+        type: 2}
+      propertyPath: leds.Array.data[3]
+      value: 
+      objectReference: {fileID: 1442340148}
+    - target: {fileID: 114507960524104782, guid: 85a2c623b85c45f4fbcbd5bedc7a4b15,
+        type: 2}
+      propertyPath: leds.Array.data[4]
+      value: 
+      objectReference: {fileID: 2007939489}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 85a2c623b85c45f4fbcbd5bedc7a4b15, type: 2}
   m_IsPrefabParent: 0
@@ -278,6 +308,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1259607603 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1393766066196068, guid: 85a2c623b85c45f4fbcbd5bedc7a4b15,
+    type: 2}
+  m_PrefabInternal: {fileID: 433122904}
+--- !u!1 &1442340148 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1452461482496258, guid: 85a2c623b85c45f4fbcbd5bedc7a4b15,
+    type: 2}
+  m_PrefabInternal: {fileID: 433122904}
+--- !u!1 &1717509869 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000419722479590, guid: 85a2c623b85c45f4fbcbd5bedc7a4b15,
+    type: 2}
+  m_PrefabInternal: {fileID: 433122904}
+--- !u!1 &1785401623 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1478536366733092, guid: 85a2c623b85c45f4fbcbd5bedc7a4b15,
+    type: 2}
+  m_PrefabInternal: {fileID: 433122904}
 --- !u!1 &1786702028
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,3 +393,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &2007939489 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1921752100952918, guid: 85a2c623b85c45f4fbcbd5bedc7a4b15,
+    type: 2}
+  m_PrefabInternal: {fileID: 433122904}

@@ -26,4 +26,4 @@ Material:
     - _Outline: 0
     m_Colors:
     - _Color: {r: 1, g: 0, b: 0, a: 0.6431373}
-    - _OutlineColor: {r: 1, g: 0.2689655, b: 0, a: 1}
+    - _OutlineColor: {r: 1, g: 0.27058825, b: 0, a: 1}
