@@ -14,7 +14,15 @@ MonoBehaviour:
   id: simonSupports
   title: Simon Supports
   author: Danny7007
-  description: eat shit.
+  description: 'Last meeting we brought up the lack of color within the office. Now
+    the office looks like a Christmas lights factory.
+
+
+    Module by Danny7007 and Blananas2
+
+    Module ID: simonSupports
+
+    Manual can be found on ktane.timwi.de'
   version: 1.0.0
   outputFolder: build
   previewImage: {fileID: 0}
