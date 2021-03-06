@@ -14,7 +14,6 @@ public class SimonSupportsScript : MonoBehaviour {
     public KMSelectable button;
     public Material[] ledMats;
     public GameObject[] leds;
-    public Light[] lights;
     public AudioClip[] sounds;
     public TextMesh[] cbTexts;
 
@@ -57,6 +56,7 @@ public class SimonSupportsScript : MonoBehaviour {
     static int moduleIdCounter = 1;
     int moduleId;
     private bool moduleSolved;
+    bool cbON = false;
 
     void Awake()
     {
@@ -65,10 +65,10 @@ public class SimonSupportsScript : MonoBehaviour {
     }
     void Start()
     {
-        float scalar = transform.lossyScale.x;
-        for (var i = 0; i < lights.Length; i++)
-            lights[i].range *= scalar;
-
+        if (CB.ColorblindModeActive)
+        {
+            cbON = true;
+        }
         edgework[0] = Bomb.GetOnIndicators().Count() == Bomb.GetOffIndicators().Count();    //boss
         edgework[1] = Bomb.GetPortPlates().Any(x => x.Length == 0);                         //cruel
         edgework[2] = Bomb.IsPortPresent(Port.Parallel) || Bomb.IsPortPresent(Port.Serial); //faulty
@@ -83,14 +83,11 @@ public class SimonSupportsScript : MonoBehaviour {
         Debug.LogFormat("<Simon Supports #{0}> Edgework conditions: {1} {2} {3} {4} {5} {6} {7} {8}", moduleId, edgework[0], edgework[1], edgework[2], edgework[3], edgework[4], edgework[5], edgework[6], edgework[7]);
 
         GeneratePuzzle();
+        CBToggle();
+        
         for (int i = 0; i < 5; i++)
         {
             leds[i].GetComponent<MeshRenderer>().material = ledMats[col[i]];
-            lights[i].enabled = false;
-            if (CB.ColorblindModeActive)
-            {
-                cbTexts[i].text = colorNames[col[i]][0].ToString();
-            }
         }
 
         Debug.LogFormat("[Simon Supports #{0}] Hello, welcome to Steel Crate Games! Your fellow employees Simon, Simon, Simon, Simon, and Simon sit in front of you, wearing their favorite ties of {1}, {2}, {3}, {4}, {5}.", moduleId, colorNames[col[0]], colorNames[col[1]], colorNames[col[2]], colorNames[col[3]], colorNames[col[4]]);
@@ -130,6 +127,18 @@ public class SimonSupportsScript : MonoBehaviour {
             case 1: Debug.LogFormat("[Simon Supports #{0}] You yourself only agree with topic {1}.", moduleId, selfAgree[0] + 1); break;
             case 2: Debug.LogFormat("[Simon Supports #{0}] You yourself agree with topics {1} and {2}.", moduleId, selfAgree[0] + 1, selfAgree[1] + 1); break;
             case 3: Debug.LogFormat("[Simon Supports #{0}] You yourself agree with topics {1}, {2}, and {3}.", moduleId, selfAgree[0] + 1, selfAgree[1] + 1, selfAgree[2] + 1); break;
+        }
+    }
+
+    void CBToggle()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            if (cbON)
+            {
+                cbTexts[i].text = colorNames[col[i]][0].ToString();
+            }
+            else cbTexts[i].text = string.Empty;
         }
     }
 
@@ -261,9 +270,10 @@ public class SimonSupportsScript : MonoBehaviour {
         {
             if (stage == -1)
             {
-                foreach (Light light in lights)
+                for (int i = 0; i < 5; i++)
                 {
-                    light.enabled = false;
+                    leds[i].GetComponent<MeshRenderer>().material = ledMats[col[i]];
+                    cbTexts[i].color = new Color(0, 0, 0);
                 }
                 yield return new WaitForSecondsRealtime(2f);
             }
@@ -272,13 +282,15 @@ public class SimonSupportsScript : MonoBehaviour {
             {
                 if (combo[stage][i] == true)
                 {
-                    lights[i].enabled = true;
-                }   
+                    leds[i].GetComponent<MeshRenderer>().material = ledMats[col[i] + 10];
+                    cbTexts[i].color = new Color(1, 1, 1);
+                }
             }
             yield return new WaitForSeconds(1f);
-            foreach (Light light in lights)
+            for (int i = 0; i < 5; i++)
             {
-                light.enabled = false;
+                leds[i].GetComponent<MeshRenderer>().material = ledMats[col[i]];
+                cbTexts[i].color = new Color(0, 0, 0);
             }
             if (stage == 2)
             {
@@ -297,14 +309,18 @@ public class SimonSupportsScript : MonoBehaviour {
     {
         string[] parameters = Command.Trim().ToUpperInvariant().Split(' ');
         List<string> submitting = new List<string>();
+        if ((parameters.Length == 1) && (parameters[0] == "COLORBLIND"))
+        {
+            cbON = !cbON;
+            CBToggle();
+            yield return null; yield break;
+        }
         for (int i = 1; i < parameters.Length; i++)
         {
             submitting.Add(parameters[i]);
         }
-        Debug.Log(submitting.Join());
         if (parameters[0] != "SUBMIT")
         {
-            Debug.Log("what");
             yield return "sendtochaterror";
         }
         else if (parameters[1] == "NONE")

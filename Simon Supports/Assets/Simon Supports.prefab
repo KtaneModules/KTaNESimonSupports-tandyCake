@@ -62,7 +62,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1058090182085796
 GameObject:
   m_ObjectHideFlags: 1
@@ -150,7 +150,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1240676701029190
 GameObject:
   m_ObjectHideFlags: 1
@@ -235,7 +235,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1393766066196068
 GameObject:
   m_ObjectHideFlags: 1
@@ -305,7 +305,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1483389105527792
 GameObject:
   m_ObjectHideFlags: 1
@@ -446,7 +446,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4003879481806674
 Transform:
   m_ObjectHideFlags: 1
@@ -534,7 +534,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1350631318883320}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalPosition: {x: 0, y: 0, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4275015287907192}
@@ -747,7 +747,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1035736156756752}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalPosition: {x: 0, y: 0, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4529538903061958}
@@ -760,7 +760,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1954821997316550}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: 2}
+  m_LocalPosition: {x: 0, y: -0, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4151757466307600}
@@ -1465,7 +1465,7 @@ Light:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1350631318883320}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1501,7 +1501,7 @@ Light:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1482093604077958}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1537,7 +1537,7 @@ Light:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1035736156756752}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1573,7 +1573,7 @@ Light:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1954821997316550}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1609,7 +1609,7 @@ Light:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1218702322104476}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1876,18 +1876,22 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 3607f01cfa6c6cf42a130f597403dff4, type: 2}
   - {fileID: 2100000, guid: f0a1a5d5ec42ce6439d519a7038698d0, type: 2}
   - {fileID: 2100000, guid: f89f25e0b8893c243994c154dc704d1d, type: 2}
+  - {fileID: 2100000, guid: 9ac9381b17cdc7e4f856accdebc3e12f, type: 2}
+  - {fileID: 2100000, guid: 36592d144710c9a4db0f2e46ab630b47, type: 2}
+  - {fileID: 2100000, guid: a222a89a7e725bc4d967914fb1ea1bc8, type: 2}
+  - {fileID: 2100000, guid: 4c62cb42cdceefa4d8f019c6a8c0161d, type: 2}
+  - {fileID: 2100000, guid: 68ff15a63adcf084d9c3111c8fed91f3, type: 2}
+  - {fileID: 2100000, guid: 72dad62fd9d1f7346bc69525d22007f4, type: 2}
+  - {fileID: 2100000, guid: 8c395bdd17919194182ba4a684010522, type: 2}
+  - {fileID: 2100000, guid: 2f475596042d6b942b133325a9a6ce77, type: 2}
+  - {fileID: 2100000, guid: bb618c5d94c5ffa49bc75759e8cd6a47, type: 2}
+  - {fileID: 2100000, guid: 45e958432d88ab94699a0be9054c7d4b, type: 2}
   leds:
   - {fileID: 1000419722479590}
   - {fileID: 1478536366733092}
   - {fileID: 1393766066196068}
   - {fileID: 1452461482496258}
   - {fileID: 1921752100952918}
-  lights:
-  - {fileID: 108778385383235018}
-  - {fileID: 108250758833930710}
-  - {fileID: 108742749837251382}
-  - {fileID: 108049482147961694}
-  - {fileID: 108140532318572280}
   sounds:
   - {fileID: 8300000, guid: 82649d5aa4345574e978541bf20ceb97, type: 3}
   - {fileID: 8300000, guid: 6abf010d45cc15b42a9663130476cbf7, type: 3}
