@@ -57,6 +57,7 @@ public class SimonSupportsScript : MonoBehaviour {
     int moduleId;
     private bool moduleSolved;
     bool cbON = false;
+    int postSolveCounter = 0;
 
     void Awake()
     {
@@ -86,16 +87,12 @@ public class SimonSupportsScript : MonoBehaviour {
         CBToggle();
         
         for (int i = 0; i < 5; i++)
-        {
             leds[i].GetComponent<MeshRenderer>().material = ledMats[col[i]];
-        }
 
         Debug.LogFormat("[Simon Supports #{0}] Hello, welcome to Steel Crate Games! Your fellow employees Simon, Simon, Simon, Simon, and Simon sit in front of you, wearing their favorite ties of {1}, {2}, {3}, {4}, {5}.", moduleId, colorNames[col[0]], colorNames[col[1]], colorNames[col[2]], colorNames[col[3]], colorNames[col[4]]);
         Debug.LogFormat("[Simon Supports #{0}] The topics on the agenda today are {1}, {2}, and {3}, but I'm sure you already knew that.", moduleId, traitNames[tra[0]], traitNames[tra[1]], traitNames[tra[2]]);
         if (attempts != 1)
-        {
             Debug.LogFormat("[Simon Supports #{0}] Fun Fact!: Due to administrative issues, the scheduled date for the meeting had to be moved a total of {1} time(s)!", moduleId, attempts - 1);
-        }
         for (int i = 0; i < 5; i++)
         {
             List<int> temp = new List<int>();
@@ -117,9 +114,7 @@ public class SimonSupportsScript : MonoBehaviour {
         for (int i = 0; i < 3; i++)
         {
             if (edgework[tra[i]])
-            {
                 selfAgree.Add(i);
-            }
         }
         switch (selfAgree.Count())
         {
@@ -135,9 +130,7 @@ public class SimonSupportsScript : MonoBehaviour {
         for (int i = 0; i < 5; i++)
         {
             if (cbON)
-            {
                 cbTexts[i].text = colorNames[col[i]][0].ToString();
-            }
             else cbTexts[i].text = string.Empty;
         }
     }
@@ -170,7 +163,7 @@ public class SimonSupportsScript : MonoBehaviour {
         int[] y = { 1, 2, 3, 4, 5, 6, 7, 2, 3, 4, 5, 6, 7, 3, 4, 5, 6, 7 };
 
         for (int z = 0; z < x.Count(); z++) {
-            if (Same(x[z], y[z])) { generationValid = false; };
+            if (Same(x[z], y[z]))  generationValid = false; ;
         }
     }
 
@@ -181,38 +174,31 @@ public class SimonSupportsScript : MonoBehaviour {
 
     void ScreenPress()
     {
+        button.AddInteractionPunch(1);
         if (moduleSolved)
         {
+            PressOnSolve();
             return;
         }
 
-        if (new int[] { 0, 1, 2 }.Contains(stage))
-        {
+        if (stage != -1)
             Audio.PlaySoundAtTransform(sounds[stage].name, button.transform);
-        }
         submission.Add(stage);
-        button.AddInteractionPunch(1);
         Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
         Audio.PlaySoundAtTransform(sounds[stage + 1].name, button.transform);
         if (stage == -1)
-        {
             CheckSubmission();
-        }
     }
 
     void CheckSubmission()
     {
         if (submission.Count() == 0)
-        {
             return;
-        }
         if ((submission.Count() == 1) && (submission[0] == -1))
         {
             Debug.LogFormat("[Simon Supports #{0}] You showed your support for none of the topics.", moduleId, submission[0]);
             if (selfAgree.Count() == 0)
-            {
                 StartCoroutine(Solve());
-            }
             else StartCoroutine(Strike());
         }
         else if (submission.Count() == selfAgree.Count())
@@ -222,28 +208,32 @@ public class SimonSupportsScript : MonoBehaviour {
                 case 1:
                     Debug.LogFormat("[Simon Supports #{0}] You showed your support for only topic {1}.", moduleId, submission[0] + 1);
                     if (submission[0] == selfAgree[0])
-                    {
-                        StartCoroutine(Solve()); break;
-                    }
-                    else StartCoroutine(Strike()); break;
+                        StartCoroutine(Solve()); 
+                    else StartCoroutine(Strike());
+                    break;
                 case 2:
                     Debug.LogFormat("[Simon Supports #{0}] You showed your support for topics {1} and {2}.", moduleId, submission[0] + 1, submission[1] + 1);
                     if ((submission[0] == selfAgree[0]) && (submission[1] == selfAgree[1]))
-                    {
-                        StartCoroutine(Solve()); break;
-                    }
-                    else StartCoroutine(Strike()); break;
+                        StartCoroutine(Solve()); 
+                    else StartCoroutine(Strike());
+                    break;
                 case 3:
                     Debug.LogFormat("[Simon Supports #{0}] You showed your support for all three of the topics.", moduleId);
                     if ((submission[0] == selfAgree[0]) && (submission[1] == selfAgree[1]) && (submission[2] == selfAgree[2]))
-                    {
-                        StartCoroutine(Solve()); break;
-                    }
-                    else StartCoroutine(Strike()); break;
+                        StartCoroutine(Solve());
+                    else StartCoroutine(Strike());
+                    break;
                 default: StartCoroutine(Strike()); break;
             }
         }
         else StartCoroutine(Strike());
+    }
+
+    void PressOnSolve()
+    {
+        int[] order = { 0, 1, 2, 3, 2, 1 };
+        Audio.PlaySoundAtTransform(sounds[order[postSolveCounter % 6]].name, transform);
+        postSolveCounter++;
     }
 
 
@@ -302,68 +292,62 @@ public class SimonSupportsScript : MonoBehaviour {
     }
 
     #pragma warning disable 414
-    private readonly string TwitchHelpMessage = @"Use !{0} submit 2 3 to support the 2nd and 3rd topics. Use !{0} submit none to support none of the topics.";
+    private readonly string TwitchHelpMessage = @"Use !{0} submit 2 3 to support the 2nd and 3rd topics. Use !{0} submit none to support none of the topics. Use !{0} colorblind to toggle colorblind mode.";
     #pragma warning restore 414
 
-    IEnumerator ProcessTwitchCommand (string Command)
+    IEnumerator ProcessTwitchCommand (string input)
     {
-        string[] parameters = Command.Trim().ToUpperInvariant().Split(' ');
-        List<string> submitting = new List<string>();
-        if ((parameters.Length == 1) && (parameters[0] == "COLORBLIND"))
-        {
-            cbON = !cbON;
-            CBToggle();
-            yield return null; yield break;
-        }
-        for (int i = 1; i < parameters.Length; i++)
-        {
-            submitting.Add(parameters[i]);
-        }
-        if (parameters[0] != "SUBMIT")
-        {
-            yield return "sendtochaterror";
-        }
-        else if (parameters[1] == "NONE")
+        string command = input.Trim().ToUpperInvariant();
+        List<string> parameters = command.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        if (command == "COLORBLIND" || command == "COLOURBLIND")
         {
             yield return null;
-            while (stage != -1)
-            {
-                yield return "trycancel";
-            }
-            button.OnInteract();
-            yield return new WaitForSeconds(0.1f);
+            cbON = !cbON;
+            CBToggle();
+            yield break;
         }
-        else if (submitting.All(x => new string[] {"1","2","3"}.Contains(x)))
+        else if (parameters.First() != "SUBMIT" || parameters.Count <= 1)
+            yield return "sendtochaterror Invalid command";
+        parameters.Remove("SUBMIT");
+        if (parameters.Count == 1 && parameters[0] == "NONE")
         {
-            for (int i = 0; i < submitting.Count(); i++)
+            while (stage != -1)
+                yield return "trycancel";
+            button.OnInteract();
+        }
+        else if (parameters.All(x => new string[] { "1", "2", "3" }.Contains(x)))
+        {
+            yield return null;
+            foreach (string digit in parameters)
             {
-                yield return null;
-                while (stage != int.Parse(submitting[i]) - 1)
-                {
-                    yield return "trycancel";
-                }
+                int submit = int.Parse(digit) - 1;
+                while (stage != submit)
+                    yield return null;
                 button.OnInteract();
+                yield return new WaitForSeconds(0.5f);
             }
         }
-
     }
     IEnumerator TwitchHandleForcedSolve ()
     {
         if (selfAgree.Count() == 0)
         {
             while (stage != -1)
-            {
                 yield return true;
-            }
             button.OnInteract();
+            yield return new WaitForSeconds(0.1f);
         }
-        foreach (int term in selfAgree)
+        else
         {
-            while (stage != term)
+            while (stage != selfAgree.First())
+                yield return true;
+            foreach (int term in selfAgree)
             {
-                yield return null;
+                while (stage != term)
+                    yield return null;
+                button.OnInteract();
+                yield return new WaitForSeconds(0.1f);
             }
-            button.OnInteract();
         }
     }
 }
