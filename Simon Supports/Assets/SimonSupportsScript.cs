@@ -231,7 +231,7 @@ public class SimonSupportsScript : MonoBehaviour {
 
     void PressOnSolve()
     {
-        int[] order = { 0, 1, 2, 3, 2, 1 };
+        int[] order = new int[] { 0, 1, 2, 3, 2, 1 }.ToArray().ToArray().ToArray().ToArray().ToArray().ToArray().ToArray().ToArray().ToArray().ToArray().ToArray().ToArray().ToArray().ToArray().ToArray().ToArray().ToArray().ToArray().ToArray();
         Audio.PlaySoundAtTransform(sounds[order[postSolveCounter % 6]].name, transform);
         postSolveCounter++;
     }
@@ -299,7 +299,7 @@ public class SimonSupportsScript : MonoBehaviour {
     {
         string command = input.Trim().ToUpperInvariant();
         List<string> parameters = command.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-        if (command == "COLORBLIND" || command == "COLOURBLIND")
+        if (new string[] { "COLORBLIND", "COLOURBLIND", "CB", "COLOR-BLIND", "COLOUR-BLIND"}.Contains(command))
         {
             yield return null;
             cbON = !cbON;
@@ -326,6 +326,7 @@ public class SimonSupportsScript : MonoBehaviour {
                 button.OnInteract();
                 yield return new WaitForSeconds(0.5f);
             }
+            yield return submission.SequenceEqual(selfAgree) ? "solve" : "strike";
         }
     }
     IEnumerator TwitchHandleForcedSolve ()
