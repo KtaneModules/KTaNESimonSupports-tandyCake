@@ -13,7 +13,7 @@ public class SimonSupportsScript : MonoBehaviour {
     public KMColorblindMode CB;
     public KMSelectable button;
     public Material[] ledMats;
-    public GameObject[] leds;
+    public MeshRenderer[] leds;
     public AudioClip[] sounds;
     public TextMesh[] cbTexts;
 
@@ -56,6 +56,7 @@ public class SimonSupportsScript : MonoBehaviour {
     static int moduleIdCounter = 1;
     int moduleId;
     private bool moduleSolved;
+    [SerializeField]
     bool cbON = false;
     int postSolveCounter = 0;
 
@@ -67,9 +68,7 @@ public class SimonSupportsScript : MonoBehaviour {
     void Start()
     {
         if (CB.ColorblindModeActive)
-        {
             cbON = true;
-        }
         edgework[0] = Bomb.GetOnIndicators().Count() == Bomb.GetOffIndicators().Count();    //boss
         edgework[1] = Bomb.GetPortPlates().Any(x => x.Length == 0);                         //cruel
         edgework[2] = Bomb.IsPortPresent(Port.Parallel) || Bomb.IsPortPresent(Port.Serial); //faulty
@@ -87,12 +86,12 @@ public class SimonSupportsScript : MonoBehaviour {
         CBToggle();
         
         for (int i = 0; i < 5; i++)
-            leds[i].GetComponent<MeshRenderer>().material = ledMats[col[i]];
+            leds[i].material = ledMats[col[i]];
 
         Debug.LogFormat("[Simon Supports #{0}] Hello, welcome to Steel Crate Games! Your fellow employees Simon, Simon, Simon, Simon, and Simon sit in front of you, wearing their favorite ties of {1}, {2}, {3}, {4}, {5}.", moduleId, colorNames[col[0]], colorNames[col[1]], colorNames[col[2]], colorNames[col[3]], colorNames[col[4]]);
         Debug.LogFormat("[Simon Supports #{0}] The topics on the agenda today are {1}, {2}, and {3}, but I'm sure you already knew that.", moduleId, traitNames[tra[0]], traitNames[tra[1]], traitNames[tra[2]]);
         if (attempts != 1)
-            Debug.LogFormat("[Simon Supports #{0}] Fun Fact!: Due to administrative issues, the scheduled date for the meeting had to be moved a total of {1} time(s)!", moduleId, attempts - 1);
+            Debug.LogFormat("[Simon Supports #{0}] Fun Fact!: Due to administrative issues, the scheduled date for the meeting had to be moved a total of {1} time{2}!", moduleId, attempts - 1, attempts == 2 ? "" : "s");
         for (int i = 0; i < 5; i++)
         {
             List<int> temp = new List<int>();
@@ -262,8 +261,8 @@ public class SimonSupportsScript : MonoBehaviour {
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    leds[i].GetComponent<MeshRenderer>().material = ledMats[col[i]];
-                    cbTexts[i].color = new Color(0, 0, 0);
+                    leds[i].material = ledMats[col[i]];
+                    cbTexts[i].color = Color.black;
                 }
                 yield return new WaitForSecondsRealtime(2f);
             }
@@ -272,14 +271,14 @@ public class SimonSupportsScript : MonoBehaviour {
             {
                 if (combo[stage][i] == true)
                 {
-                    leds[i].GetComponent<MeshRenderer>().material = ledMats[col[i] + 10];
+                    leds[i].material = ledMats[col[i] + 10];
                     cbTexts[i].color = new Color(1, 1, 1);
                 }
             }
             yield return new WaitForSeconds(1f);
             for (int i = 0; i < 5; i++)
             {
-                leds[i].GetComponent<MeshRenderer>().material = ledMats[col[i]];
+                leds[i].material = ledMats[col[i]];
                 cbTexts[i].color = new Color(0, 0, 0);
             }
             if (stage == 2)
@@ -311,6 +310,7 @@ public class SimonSupportsScript : MonoBehaviour {
         parameters.Remove("SUBMIT");
         if (parameters.Count == 1 && parameters[0] == "NONE")
         {
+            yield return null;
             while (stage != -1)
                 yield return "trycancel";
             button.OnInteract();
