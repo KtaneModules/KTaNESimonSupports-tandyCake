@@ -59,6 +59,7 @@ public class SimonSupportsScript : MonoBehaviour {
     [SerializeField]
     bool cbON = false;
     int postSolveCounter = 0;
+    List<int>[] flashes = new List<int>[5].Select(x => new List<int>()).ToArray();
 
     void Awake()
     {
@@ -133,7 +134,7 @@ public class SimonSupportsScript : MonoBehaviour {
             else cbTexts[i].text = string.Empty;
         }
     }
-
+    //Blan code
     void GeneratePuzzle() {
         Restart:
         generationValid = true;
@@ -155,8 +156,14 @@ public class SimonSupportsScript : MonoBehaviour {
             attempts += 1;
             goto Restart;
         }
+        for (int c = 0; c < 5; c++)
+            for (int f = 0; f < 3; f++)
+                if (combo[f][c])
+                    flashes[c].Add(f);
+        if (flashes.Any(x => x.Count == 0))
+            goto Restart;
     }
-
+    //also blan code
     void Check () {
         int[] x = { 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2 };
         int[] y = { 1, 2, 3, 4, 5, 6, 7, 2, 3, 4, 5, 6, 7, 3, 4, 5, 6, 7 };
@@ -165,7 +172,7 @@ public class SimonSupportsScript : MonoBehaviour {
             if (Same(x[z], y[z]))  generationValid = false; ;
         }
     }
-
+    //does blan know sequenceequal is a method
     bool Same (int a, int b) {
         return (combo[a][0] == combo[b][0] && combo[a][1] == combo[b][1] && combo[a][2] == combo[b][2] && combo[a][3] == combo[b][3] && combo[a][4] == combo[b][4]);
     }
@@ -272,14 +279,14 @@ public class SimonSupportsScript : MonoBehaviour {
                 if (combo[stage][i] == true)
                 {
                     leds[i].material = ledMats[col[i] + 10];
-                    cbTexts[i].color = new Color(1, 1, 1);
+                    cbTexts[i].color = Color.white;
                 }
             }
             yield return new WaitForSeconds(1f);
             for (int i = 0; i < 5; i++)
             {
                 leds[i].material = ledMats[col[i]];
-                cbTexts[i].color = new Color(0, 0, 0);
+                cbTexts[i].color = Color.black;
             }
             if (stage == 2)
             {
