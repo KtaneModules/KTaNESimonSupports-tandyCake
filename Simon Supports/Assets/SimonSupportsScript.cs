@@ -56,6 +56,7 @@ public class SimonSupportsScript : MonoBehaviour {
     static int moduleIdCounter = 1;
     int moduleId;
     private bool moduleSolved;
+    private bool lightTurnedGreen;
     [SerializeField]
     bool cbON = false;
     int postSolveCounter = 0;
@@ -249,6 +250,7 @@ public class SimonSupportsScript : MonoBehaviour {
         yield return new WaitForSecondsRealtime(0.5f);
         Debug.LogFormat("[Simon Supports #{0}] Which is exactly what the boss wanted! I reckon you're in for a raise. While you're at it, module solved!", moduleId);
         GetComponent<KMBombModule>().HandlePass();
+        lightTurnedGreen = true;
         Audio.PlaySoundAtTransform("clap", button.transform);
     }
 
@@ -339,23 +341,19 @@ public class SimonSupportsScript : MonoBehaviour {
     IEnumerator TwitchHandleForcedSolve ()
     {
         if (selfAgree.Count() == 0)
-        {
             while (stage != -1)
                 yield return true;
-            button.OnInteract();
-            yield return new WaitForSeconds(0.1f);
-        }
         else
         {
             while (stage != selfAgree.First())
                 yield return true;
             foreach (int term in selfAgree)
-            {
                 while (stage != term)
-                    yield return null;
-                button.OnInteract();
-                yield return new WaitForSeconds(0.1f);
-            }
+                    yield return null;  
         }
+        button.OnInteract();
+        yield return new WaitForSeconds(0.1f);
+        while (!lightTurnedGreen)
+            yield return true;
     }
 }
