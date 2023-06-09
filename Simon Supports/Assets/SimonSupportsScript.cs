@@ -161,7 +161,7 @@ public class SimonSupportsScript : MonoBehaviour {
             for (int f = 0; f < 3; f++)
                 if (combo[f][c])
                     flashes[c].Add(f);
-        if (flashes.Any(x => x.Count == 0))
+        if (Enumerable.Range(0, 3).Any(flashIx => !flashes.Any(led => led.Contains(flashIx))))
             goto Restart;
     }
     //also blan code
