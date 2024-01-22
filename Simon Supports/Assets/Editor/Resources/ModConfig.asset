@@ -23,6 +23,6 @@ MonoBehaviour:
     Module ID: simonSupports
 
     Manual can be found on ktane.timwi.de'
-  version: 1.1.7
+  version: 1.2.0
   outputFolder: build
   previewImage: {fileID: 2800000, guid: 02a371c60c005d04798bcd91ade8b20e, type: 3}

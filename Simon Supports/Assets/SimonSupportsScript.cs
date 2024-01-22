@@ -187,10 +187,12 @@ public class SimonSupportsScript : MonoBehaviour {
             PressOnSolve();
             return;
         }
+        Debug.Log("PRESSED " + stage);
 
         if (stage != -1)
             Audio.PlaySoundAtTransform(sounds[stage].name, button.transform);
-        submission.Add(stage);
+        if (!submission.Contains(stage))
+            submission.Add(stage);
         Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
         Audio.PlaySoundAtTransform(sounds[stage + 1].name, button.transform);
         if (stage == -1)
@@ -208,32 +210,22 @@ public class SimonSupportsScript : MonoBehaviour {
                 StartCoroutine(Solve());
             else StartCoroutine(Strike());
         }
-        else if (submission.Count() == selfAgree.Count())
+        else
         {
             switch (submission.Count())
             {
-                case 1:
-                    Debug.LogFormat("[Simon Supports #{0}] You showed your support for only topic {1}.", moduleId, submission[0] + 1);
-                    if (submission[0] == selfAgree[0])
-                        StartCoroutine(Solve()); 
-                    else StartCoroutine(Strike());
+                case 1: Debug.LogFormat("[Simon Supports #{0}] You showed your support for only topic {1}.", moduleId, submission[0] + 1); 
                     break;
-                case 2:
-                    Debug.LogFormat("[Simon Supports #{0}] You showed your support for topics {1} and {2}.", moduleId, submission[0] + 1, submission[1] + 1);
-                    if ((submission[0] == selfAgree[0]) && (submission[1] == selfAgree[1]))
-                        StartCoroutine(Solve()); 
-                    else StartCoroutine(Strike());
+                case 2: Debug.LogFormat("[Simon Supports #{0}] You showed your support for topics {1} and {2}.", moduleId, submission[0] + 1, submission[1] + 1); 
                     break;
-                case 3:
-                    Debug.LogFormat("[Simon Supports #{0}] You showed your support for all three of the topics.", moduleId);
-                    if ((submission[0] == selfAgree[0]) && (submission[1] == selfAgree[1]) && (submission[2] == selfAgree[2]))
-                        StartCoroutine(Solve());
-                    else StartCoroutine(Strike());
+                case 3: Debug.LogFormat("[Simon Supports #{0}] You showed your support for all three of the topics.", moduleId);
                     break;
-                default: StartCoroutine(Strike()); break;
+                default: break;
             }
+            if (submission.Count() == selfAgree.Count() && submission.SequenceEqual(selfAgree))
+                StartCoroutine(Solve());
+            else StartCoroutine(Strike());
         }
-        else StartCoroutine(Strike());
     }
 
     void PressOnSolve()
@@ -303,6 +295,11 @@ public class SimonSupportsScript : MonoBehaviour {
     private readonly string TwitchHelpMessage = @"Use !{0} submit 2 3 to support the 2nd and 3rd topics. Use !{0} submit none to support none of the topics. Use !{0} colorblind to toggle colorblind mode.";
     #pragma warning restore 414
 
+    IEnumerator Press(float delay)
+    {
+        button.OnInteract();
+        yield return new WaitForSeconds(delay);
+    }
     IEnumerator ProcessTwitchCommand (string input)
     {
         string command = input.Trim().ToUpperInvariant();
@@ -322,7 +319,7 @@ public class SimonSupportsScript : MonoBehaviour {
             yield return null;
             while (stage != -1)
                 yield return "trycancel";
-            button.OnInteract();
+            yield return Press(0.1f);
         }
         else if (parameters.All(x => new string[] { "1", "2", "3" }.Contains(x)))
         {
@@ -332,8 +329,7 @@ public class SimonSupportsScript : MonoBehaviour {
                 int submit = int.Parse(digit) - 1;
                 while (stage != submit)
                     yield return null;
-                button.OnInteract();
-                yield return new WaitForSeconds(0.5f);
+                yield return Press(0);
             }
             yield return submission.SequenceEqual(selfAgree) ? "solve" : "strike";
         }
@@ -341,18 +337,21 @@ public class SimonSupportsScript : MonoBehaviour {
     IEnumerator TwitchHandleForcedSolve ()
     {
         if (selfAgree.Count() == 0)
+        {
             while (stage != -1)
                 yield return true;
+            yield return Press(0.1f);
+        }
         else
         {
             while (stage != selfAgree.First())
                 yield return true;
             foreach (int term in selfAgree)
-                while (stage != term)
-                    yield return null;  
+            {
+                yield return new WaitUntil(() => stage == term);
+                yield return Press(0);
+            }
         }
-        button.OnInteract();
-        yield return new WaitForSeconds(0.1f);
         while (!lightTurnedGreen)
             yield return true;
     }
